@@ -42,6 +42,7 @@ def set_level():
         print("Enter valid life")
     return lives
 
+    
 
 def play():
     print(logo)
@@ -53,7 +54,8 @@ def play():
         print(f"You have {lives} guesses left!")
         is_correct = check_guess(guess)
         lives-=1
-
+    if lives == 0:
+        print("No more lives :(")
 play()
     
     
