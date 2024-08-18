@@ -1,10 +1,7 @@
-player_health = 10
-def drink_potion():
-    player_health+=1
-    
+resources = {
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
+}
 
-
-drink_potion()
-print(player_health)
-
-
+print(resources["water"])

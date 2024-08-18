@@ -8,4 +8,4 @@ travel_log_backup = {}
 
 travel_log_backup = travel_log
 
-print(travel_log_backup)
+print(travel_log_backup[1])
