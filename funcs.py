@@ -1,7 +1,3 @@
-resources = {
-    "water": 300,
-    "milk": 200,
-    "coffee": 100,
-}
+my_tuple = (1,2,3,4,5)
 
-print(resources["water"])
+my_tuple[0]
