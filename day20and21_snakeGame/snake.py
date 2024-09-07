@@ -14,9 +14,20 @@ class Snake():
         self.segments = []
         self.create_snake()
         self.head = self.segments[0]
+    
     def get_len(self):
         return len(self.segments)
-       
+    
+    #adds length to the snake when food is eaten
+    def add_len(self):
+        new_part=Turtle()
+        new_part.shape("square")
+        new_part.color("white")
+        new_part.penup()
+        new_part.goto(self.segments[-1].pos())
+        self.segments.append(new_part)   
+        
+    #initalise the whole snake body
     def create_snake(self):
         
         for pos in STARTING_POSITIONS:
@@ -27,10 +38,23 @@ class Snake():
             obj.penup()
             obj.goto(pos)
             self.segments.append(obj)
+    
+    #detect collision with tail function
+    def is_tailbite(self):
+        
+        for seg in self.segments[1:]:
+            if self.head.distance(seg) < 10:
+                return True
+        
+        return False    
+    
+    #default move forward
     def move(self):
         for seg_num in range(len(self.segments)-1,0,-1):
             self.segments[seg_num].goto(self.segments[seg_num-1].pos())
         self.head.forward(MOVE_DISTANCE)
+    
+    #move set
     def left(self):
         if self.head.heading() != RIGHT:
             self.head.setheading(180)
