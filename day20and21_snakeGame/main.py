@@ -20,7 +20,7 @@ screen.onkeypress(snake.left,"Left")
 screen.onkeypress(snake.right,"Right")
 
 
-score = 0
+
 scoreboard = Scoreboard()
 scoreboard.draw_line()
 scoreboard.update_score()
@@ -32,17 +32,22 @@ while is_game_on:
     snake.move()
     #detect food eaten
     if snake.head.distance(food)<15:
-        score+=1
+        
         food.eaten()
         snake.add_len()
         scoreboard.update_score()
         
     #detect ollision with tail
     if snake.is_tailbite():
-        is_game_on = False
+        scoreboard.restart_game()
+        snake.restart_game()
+        scoreboard.update_score()
     #detet collosion with wall
     if snake.head.xcor() > 288 or snake.head.xcor()<-288 or snake.head.ycor()>250 or snake.head.ycor() <-288:
-        is_game_on=False
-        
-scoreboard.game_over()
+        scoreboard.restart_game()
+        scoreboard.update_score()
+        snake.restart_game()
+    
+
+scoreboard.reset()
 screen.exitonclick()

@@ -39,6 +39,13 @@ class Snake():
             obj.goto(pos)
             self.segments.append(obj)
     
+    def restart_game(self):
+        for seg in self.segments:
+            seg.goto(1000,1000)
+        self.segments.clear()
+        self.create_snake()
+        self.head = self.segments[0]
+    
     #detect collision with tail function
     def is_tailbite(self):
         
