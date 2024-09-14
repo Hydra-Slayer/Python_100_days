@@ -40,13 +40,8 @@ while game_is_on:
         state_coor = data[data["state"] == answer]
         write(int(state_coor["x"]), int(state_coor["y"]), answer)
 
-states_missed =  []
-for state in state_names.values:
-    if state in guessed_states:
-        continue
-    else:
-        states_missed.append(state)
-        
+
+states_missed =  [state for state in state_names.values if state not in guessed_states]    
 new_data = pandas.DataFrame(states_missed)
 new_data.to_csv("states_to_learn.csv")
 screen.exitonclick()
