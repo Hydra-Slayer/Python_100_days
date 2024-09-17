@@ -1,6 +1,14 @@
 {
-    "wedf": {
+    "amazon": {
         "email": "email@email.com",
-        "password": "VWMY&e%3*Juf4!BY"
+        "password": "%&nfW7g%5uYPU1"
+    },
+    "ebay": {
+        "email": "email@email.com",
+        "password": "SmpIaKzaP*n)70"
+    },
+    "google": {
+        "email": "email@email.com",
+        "password": "PtC7K$XH9y#p8H"
     }
 }

@@ -47,12 +47,23 @@ def save_password():
             "password" : password,
         }
     }
-    with open("data.json","w") as data_file:
-        # data.write(f"{website}\n{email}\n{password}\n")
-        json.dump(new_data, data_file, indent=4)
-    entry_website.delete(0,END)
-    entry_password.delete(0,END)
-    messagebox.showinfo(title="Success", message="Password saved succesfully")
+    if len(website) == 0 or len(password) == 0:
+        messagebox.showinfo(title="Error", message="The website or password cannot be empty")
+    else:
+        try:
+            with open("data.json",'r') as data_file:
+                data = json.load(data_file)
+        except FileNotFoundError:
+            with open("data.json", 'w') as data_file:
+                json.dump(new_data,data_file)
+        else:
+            data.update(new_data)
+            with open("data.json", 'w') as data_file:
+                json.dump(data,data_file,indent=4)
+        finally:
+            entry_website.delete(0,END)
+            entry_password.delete(0,END)
+            messagebox.showinfo(title="Success", message="Password saved succesfully")
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -73,11 +84,31 @@ def generate_password():
     entry_password.insert(0, password)
     pyperclip.copy(password)
 
+def get_pwd():
+    
+    index = entry_website.get()
+    try:
+        with open("data.json", "r") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showerror(title="Error", message="No Password saved")
+    else:
+        try:
+            password = data[index]["password"]
+            pyperclip.copy(password)    
+        except KeyError:
+            messagebox.showerror(title="Error", message="No password saved for this website")
+            return
+        messagebox.showinfo(title="Success", message="Password copied to clipboard")
+    
+        
+        
 
 generate_btn = Button(text="Generate Password", command=generate_password)
 generate_btn.grid(column=2, row=3, sticky="EW")
 add_btn = Button(text="Add", width=35, command=save_password)
 add_btn.grid(column=1, row=4, columnspan=2, sticky="EW")
-
+get_btn = Button(text="Get", width=35,command=get_pwd)
+get_btn.grid(row=5,column=1, columnspan=2,sticky="EW")
 window.mainloop()
 
