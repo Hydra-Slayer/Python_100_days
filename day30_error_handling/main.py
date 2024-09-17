@@ -26,3 +26,6 @@ try:
 
 except (IndexError):
     print("Fruit pie")
+    
+    
+###modified password manage and nato project

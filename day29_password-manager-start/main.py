@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from random import choice, randint, shuffle
 import pyperclip
-
+import json
 # ---------------------------- UI SETUP ------------------------------- #
 
 WINDOW_DIM = 200
@@ -41,8 +41,15 @@ def save_password():
     website = entry_website.get()
     email = entry_email_uname.get()
     password = entry_password.get()
-    with open("data.txt","a") as data:
-        data.write(f"{website}\n{email}\n{password}\n")
+    new_data = {
+        website:{
+            "email" : email,
+            "password" : password,
+        }
+    }
+    with open("data.json","w") as data_file:
+        # data.write(f"{website}\n{email}\n{password}\n")
+        json.dump(new_data, data_file, indent=4)
     entry_website.delete(0,END)
     entry_password.delete(0,END)
     messagebox.showinfo(title="Success", message="Password saved succesfully")
@@ -62,6 +69,7 @@ def generate_password():
     shuffle(password_list)
 
     password = "".join(password_list)
+    entry_password.delete(0,END)
     entry_password.insert(0, password)
     pyperclip.copy(password)
 
