@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 import pandas
 import random
 
@@ -8,6 +9,7 @@ current_card = {}
 
 window = Tk()
 window.title("Anki Clone")
+
 window.config(padx=50, pady=50, background=BACKGROUND_COLOR)
 right_img = PhotoImage(file="./images/right.png")
 wrong_img = PhotoImage(file="./images/wrong.png")
@@ -36,16 +38,24 @@ def flip_card():
 flip_timer = window.after(3000, func=flip_card)
 
 words_learnt = []
+to_learn = all_cards
 def learnt():
-    all_cards.remove(current_card)
     
-    
+    to_learn.remove(current_card)
     words_learnt.append(current_card)
-    data = pandas.DataFrame(all_cards)
-    data.to_csv("data/words_to_learn.csv", index=False)
     
     next_card()
     
+def save_files():
+    if messagebox.askyesno("Save Progress", "Do you want to save your progress?") == True:
+        words_to_learn = pandas.DataFrame(to_learn)
+        words_to_learn.to_csv("data/words_to_learn.csv", index=False, mode="w")
+        words_learnt_df = pandas.DataFrame(words_learnt)
+        words_learnt_df.to_csv("./data/words_learnt.csv")
+        window.destroy()
+    else:
+        window.destroy()
+        
 
 def next_card():
     global current_card, flip_timer
@@ -64,6 +74,5 @@ wrng_btn = Button(width=100, height=100, image=wrong_img, command=next_card, hig
 rht_btn.grid(row=1, column=0)
 wrng_btn.grid(row=1, column=1)
 
+window.protocol("WM_DELETE_WINDOW", save_files)
 window.mainloop()
-words_learnt_df = pandas.DataFrame(words_learnt)
-words_learnt_df.to_csv("./data/words_learnt.csv")
